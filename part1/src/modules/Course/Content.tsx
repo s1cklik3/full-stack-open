@@ -1,9 +1,8 @@
 import { ReactElement } from "react";
-import { Part } from "./Part";
+import { Part } from "../../Part";
+import { IPart } from "./index";
 
-export const Content = (props: {
-  parts: { id: number; name: string; exercises: number }[];
-}): ReactElement => {
+const Content = (props: { parts: IPart[] }): ReactElement => {
   const { parts } = props;
   return (
     // Note: JSX elements directly inside a map() call always need keys!
@@ -19,3 +18,5 @@ export const Content = (props: {
     </div>
   );
 };
+
+export default Content;
