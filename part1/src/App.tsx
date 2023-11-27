@@ -1,7 +1,8 @@
-import Course from "./modules/Course";
+import Course, { ICourse } from "./modules/Course";
+import PhoneBook from "./modules/PhoneBook";
 
 const App = () => {
-  const courses = [
+  const courses: ICourse[] = [
     {
       name: "Half Stack application development",
       id: 1,
@@ -47,11 +48,12 @@ const App = () => {
   ];
 
   return (
-    <div>
+    <>
       {courses.map((course) => {
         return <Course key={course.id} course={course}></Course>;
       })}
-    </div>
+      <PhoneBook></PhoneBook>
+    </>
   );
 };
 
