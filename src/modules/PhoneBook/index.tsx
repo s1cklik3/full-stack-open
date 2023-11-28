@@ -1,6 +1,6 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 
-import useFetchAndSetApiData from "../../hooks/useFetchAndSetApiData";
+import useFetch from "../../hooks/useFetch";
 import PersonFilter from "./PersonFilter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
@@ -12,11 +12,13 @@ export interface IPerson {
 }
 
 const PhoneBook = (): ReactElement => {
-  const [persons, setPersons] = useState<IPerson[]>([]);
-  const { isLoading } = useFetchAndSetApiData(
+  const { isLoading, apiData, serverError } = useFetch(
     "http://localhost:3001/persons",
-    setPersons,
   );
+  const [persons, setPersons] = useState<IPerson[]>([]);
+  useEffect(() => {
+    setPersons(apiData);
+  }, [isLoading, apiData, serverError]);
 
   return isLoading ? (
     <></>

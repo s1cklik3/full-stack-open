@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 
 import { IPerson } from "./index";
 
-const Person = ({ persons }: { persons: IPerson[] | null }): ReactElement => {
+const Person = ({ persons }: { persons: IPerson[] | undefined }): ReactElement => {
   return (
     <>
       <h2>Numbers</h2>

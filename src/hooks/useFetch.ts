@@ -1,16 +1,20 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios, { AxiosError, isAxiosError } from "axios";
+import { useEffect, useState } from "react";
 
 interface ValidationError {
   message: null | string;
   errors: null | Record<string, string[]>;
 }
 
-const useFetchAndSetApiData = (
-  url: string,
-  setApiData: Dispatch<SetStateAction<any>>,
-) => {
+interface ApiResponse {
+  isLoading: boolean;
+  apiData: any;
+  serverError: AxiosError<ValidationError, Record<string, unknown>> | null;
+}
+
+const useFetch = (url: string): ApiResponse => {
   const [isLoading, setIsLoading] = useState(false);
+  const [apiData, setApiData] = useState(null);
   const [serverError, setServerError] = useState<null | AxiosError<
     ValidationError,
     Record<string, unknown>
@@ -36,7 +40,7 @@ const useFetchAndSetApiData = (
     })();
   }, [url]);
 
-  return { isLoading, serverError };
+  return { isLoading, apiData, serverError };
 };
 
-export default useFetchAndSetApiData;
+export default useFetch;
