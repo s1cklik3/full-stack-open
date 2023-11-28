@@ -5,16 +5,15 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { IPerson } from "./Persons";
+
+import { IPerson } from "./index";
 
 const PersonForm = ({
   persons,
   setPersons,
 }: {
   persons: IPerson[];
-  setPersons: Dispatch<
-    SetStateAction<{ name: string; number: string; id: number }[]>
-  >;
+  setPersons: Dispatch<SetStateAction<IPerson[]>>;
 }): ReactElement => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");

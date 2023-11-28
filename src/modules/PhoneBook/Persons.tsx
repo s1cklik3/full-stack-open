@@ -1,12 +1,8 @@
 import { ReactElement } from "react";
 
-export interface IPerson {
-  id: number;
-  name: string;
-  number: string;
-}
+import { IPerson } from "./index";
 
-const Person = ({ persons }: { persons: IPerson[] }): ReactElement => {
+const Person = ({ persons }: { persons: IPerson[] | null }): ReactElement => {
   return (
     <>
       <h2>Numbers</h2>

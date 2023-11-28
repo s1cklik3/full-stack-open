@@ -1,18 +1,15 @@
 import { Dispatch, ReactElement, SetStateAction } from "react";
-import { IPerson } from "./Persons";
+
+import { IPerson } from "./index";
 
 const PersonFilter = ({
   persons,
   setPersons,
 }: {
   persons: IPerson[];
-  setPersons: Dispatch<
-    SetStateAction<{ name: string; number: string; id: number }[]>
-  >;
+  setPersons: Dispatch<SetStateAction<IPerson[]>>;
 }): ReactElement => {
   const handlePersonFilter = (event: { target: HTMLInputElement }) => {
-    console.log("persons", persons);
-
     const updatedPersons = persons.filter((person) => {
       return person.name
         .toLowerCase()
