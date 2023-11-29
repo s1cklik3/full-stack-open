@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
-import { useFetch } from "@services/person.service";
+import { useFetchPersons } from "@services/person.service";
 
 import PersonFilter from "./PersonFilter";
 import PersonForm from "./PersonForm";
@@ -13,17 +13,17 @@ export interface IPerson {
 }
 
 const PhoneBook = (): ReactElement => {
-  const { isLoading, apiData, serverError } = useFetch(
-    "http://localhost:3001/persons",
-  );
+  const { loading, data, error } = useFetchPersons();
   const [persons, setPersons] = useState<IPerson[]>([]);
   useEffect(() => {
-    setPersons(apiData);
-  }, [isLoading, apiData, serverError]);
+    setPersons(data);
+  }, [data, error]);
 
-  return isLoading ? (
-    <></>
-  ) : (
+  if (loading) return <></>;
+
+  if (error) return <></>;
+
+  return (
     <>
       <h2>Phonebook</h2>
       <PersonFilter persons={persons} setPersons={setPersons}></PersonFilter>

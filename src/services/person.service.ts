@@ -8,71 +8,42 @@ export interface ValidationError {
 }
 
 export interface ApiResponse {
-  isLoading: boolean;
-  apiData: any;
-  serverError: AxiosError<ValidationError, Record<string, unknown>> | null;
+  loading: boolean;
+  data: any;
+  error: AxiosError<ValidationError, Record<string, unknown>> | null;
 }
 
-const useFetch = (url: string): ApiResponse => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiData, setApiData] = useState(null);
-  const [serverError, setServerError] = useState<null | AxiosError<
+const baseUrl = "http://localhost:3001/persons";
+
+const useFetchPersons = (): ApiResponse => {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | AxiosError<
     ValidationError,
     Record<string, unknown>
   >>(null);
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     (async () => {
       try {
-        const resp = await axios.get(url);
+        const resp = await axios.get(baseUrl);
         const data = await resp?.data;
 
-        setApiData(data);
+        setData(data);
       } catch (error: unknown) {
         if (isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-          setServerError(error);
+          setError(error);
         } else {
           console.error(error);
         }
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     })();
-  }, [url]);
+  }, []);
 
-  return { isLoading, apiData, serverError };
+  return { loading, data, error };
 };
 
-const useCreate = (url: string): ApiResponse => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiData, setApiData] = useState(null);
-  const [serverError, setServerError] = useState<null | AxiosError<
-    ValidationError,
-    Record<string, unknown>
-  >>(null);
-
-  useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      try {
-        const resp = await axios.post(url);
-        const data = await resp?.data;
-
-        setApiData(data);
-      } catch (error: unknown) {
-        if (isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-          setServerError(error);
-        } else {
-          console.error(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [url]);
-
-  return { isLoading, apiData, serverError };
-};
-
-export { useFetch, useCreate };
+export { useFetchPersons };
