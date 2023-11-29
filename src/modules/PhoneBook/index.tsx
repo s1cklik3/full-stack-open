@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "@services/person.service";
+
 import PersonFilter from "./PersonFilter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
