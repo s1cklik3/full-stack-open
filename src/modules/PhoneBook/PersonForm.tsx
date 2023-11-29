@@ -1,4 +1,4 @@
-import {
+import React, {
   Dispatch,
   FormEvent,
   ReactElement,
@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import { IPerson } from "./index";
+import PersonService from "@services/person.service";
 
 const PersonForm = ({
   persons,
@@ -17,10 +18,17 @@ const PersonForm = ({
 }): ReactElement => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const [error, setError] = useState(null);
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    persons.push({ name, number, id: persons.length + 1 });
-    setPersons([...persons]);
+    PersonService.createPerson({ name, number, id: persons.length + 1 })
+      .then((createdPerson: IPerson) => {
+        persons.push(createdPerson);
+        setPersons([...persons]);
+      })
+      .catch((error) => {
+        setError(error);
+      });
   };
 
   const handleNameChange = (event: { target: HTMLInputElement }) => {
@@ -30,6 +38,8 @@ const PersonForm = ({
   const handleNumberChange = (event: { target: HTMLInputElement }) => {
     setNumber(event.target.value);
   };
+
+  if (error) return <></>;
 
   return (
     <form onSubmit={handleSubmit}>

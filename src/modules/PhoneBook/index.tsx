@@ -13,13 +13,16 @@ export interface IPerson {
 }
 
 const PhoneBook = (): ReactElement => {
-  const { loading, data, error } = PersonService.useFetchPersons();
+  const [error, setError] = useState(null);
   const [persons, setPersons] = useState<IPerson[]>([]);
-  useEffect(() => {
-    setPersons(data);
-  }, [data]);
 
-  if (loading) return <></>;
+  useEffect(() => {
+    PersonService.fetchPersons()
+      .then((persons: IPerson[]) => setPersons(persons))
+      .catch((error) => {
+        setError(error);
+      });
+  }, []);
 
   if (error) return <></>;
 
@@ -28,7 +31,7 @@ const PhoneBook = (): ReactElement => {
       <h2>Phonebook</h2>
       <PersonFilter persons={persons} setPersons={setPersons}></PersonFilter>
       <PersonForm persons={persons} setPersons={setPersons}></PersonForm>
-      <Persons persons={persons}></Persons>
+      <Persons persons={persons} setPersons={setPersons}></Persons>
     </>
   );
 };
