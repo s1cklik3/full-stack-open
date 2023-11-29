@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import axios, { isAxiosError } from "axios/index";
+import axios, { isAxiosError } from "axios";
 
 export interface ValidationError {
   message: null | string;
