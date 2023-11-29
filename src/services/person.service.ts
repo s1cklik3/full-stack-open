@@ -15,8 +15,12 @@ const createPerson = async (person: Partial<IPerson>) => {
 
 const deletePerson = async (id: number) => {
   const response = await axios.delete(`${baseUrl}/${id}`);
-  console.log("response.data", response.data);
   return response.data;
 };
 
-export default { createPerson, deletePerson, fetchPersons };
+const updatePerson = async (person: Partial<IPerson>) => {
+  const response = await axios.put(`${baseUrl}/${person.id}`, person);
+  return response.data;
+};
+
+export default { createPerson, deletePerson, fetchPersons, updatePerson };
