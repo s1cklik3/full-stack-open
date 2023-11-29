@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
-import { useFetchPersons } from "@services/person.service";
+import PersonService from "@services/person.service";
 
 import PersonFilter from "./PersonFilter";
 import PersonForm from "./PersonForm";
@@ -13,11 +13,11 @@ export interface IPerson {
 }
 
 const PhoneBook = (): ReactElement => {
-  const { loading, data, error } = useFetchPersons();
+  const { loading, data, error } = PersonService.useFetchPersons();
   const [persons, setPersons] = useState<IPerson[]>([]);
   useEffect(() => {
     setPersons(data);
-  }, [data, error]);
+  }, [data]);
 
   if (loading) return <></>;
 

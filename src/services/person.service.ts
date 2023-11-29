@@ -46,4 +46,4 @@ const useFetchPersons = (): ApiResponse => {
   return { loading, data, error };
 };
 
-export { useFetchPersons };
+export default { useFetchPersons };
