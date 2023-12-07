@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Part } from "../../Part";
+import { Part } from "./Part";
 import { IPart } from "./index";
 
 const Content = (props: { parts: IPart[] }): ReactElement => {
