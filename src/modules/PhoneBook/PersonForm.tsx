@@ -8,6 +8,7 @@ import React, {
 
 import { IPerson } from "./index";
 import PersonService from "@services/person.service";
+import { AxiosResponse } from "axios/index";
 
 const personExists = (persons: IPerson[], name: string) =>
   persons.filter((person: IPerson) => person.name.trim() === name.trim());
@@ -28,22 +29,29 @@ const personToUpdate = (persons: IPerson[], updatedPerson: IPerson) =>
 const PersonForm = ({
   persons,
   setPersons,
+  setNotification,
+  setError,
 }: {
   persons: IPerson[];
   setPersons: Dispatch<SetStateAction<IPerson[]>>;
+  setNotification: Dispatch<SetStateAction<string | null>>;
+  setError: Dispatch<SetStateAction<string | null>>;
 }): ReactElement => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [error, setError] = useState(null);
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const [existingPerson] = personExists(persons, name);
 
     if (existingPerson && confirmed(name)) {
       PersonService.updatePerson({ ...existingPerson, number })
-        .then((updatedPerson: IPerson) => {
+        .then(({ data: updatedPerson }: AxiosResponse) => {
           personToUpdate(persons, updatedPerson);
           setPersons([...persons]);
+          setNotification(`Updated ${updatedPerson.name}`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
         })
         .catch((error) => {
           setError(error);
@@ -53,12 +61,19 @@ const PersonForm = ({
     }
 
     PersonService.createPerson({ name, number, id: persons.length + 1 })
-      .then((createdPerson: IPerson) => {
+      .then(({ data: createdPerson }: AxiosResponse) => {
         persons.push(createdPerson);
         setPersons([...persons]);
+        setNotification(`Added ${createdPerson.name}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       })
       .catch((error) => {
-        setError(error);
+        setError("Something went wrong!!!");
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
       });
   };
 
@@ -69,8 +84,6 @@ const PersonForm = ({
   const handleNumberChange = (event: { target: HTMLInputElement }) => {
     setNumber(event.target.value);
   };
-
-  if (error) return <></>;
 
   return (
     <form onSubmit={handleSubmit}>

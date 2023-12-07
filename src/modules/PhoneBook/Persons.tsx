@@ -6,11 +6,12 @@ import PersonService from "@services/person.service";
 const Person = ({
   persons,
   setPersons,
+  setError,
 }: {
   persons: IPerson[];
   setPersons: Dispatch<SetStateAction<IPerson[]>>;
+  setError: Dispatch<SetStateAction<string | null>>;
 }): ReactElement => {
-  const [error, setError] = useState(null);
   const handleDeletePerson = (person: IPerson): void => {
     if (window.confirm(`Delete ${person.name} ?`)) {
       PersonService.deletePerson(person.id)
@@ -26,8 +27,6 @@ const Person = ({
         });
     }
   };
-
-  if (error) return <></>;
 
   return (
     <>
