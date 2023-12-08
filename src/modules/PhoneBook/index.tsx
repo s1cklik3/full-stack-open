@@ -1,13 +1,13 @@
+import { AxiosResponse } from "axios";
 import React, { ReactElement, useEffect, useState } from "react";
 
+import Error from "@components/Error";
 import PersonService from "@services/person.service";
+import Notification from "@components/Notification";
 
 import PersonFilter from "./PersonFilter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
-import Notification from "@/modules/PhoneBook/Notification";
-import Error from "@/modules/PhoneBook/Error";
-import { AxiosResponse } from "axios";
 
 export interface IPerson {
   id: number;
