@@ -40,7 +40,11 @@ const PhoneBook = (): ReactElement => {
         setNotification={setNotification}
         setError={setError}
       ></PersonForm>
-      <Persons persons={persons} setPersons={setPersons}></Persons>
+      <Persons
+        persons={persons}
+        setPersons={setPersons}
+        setError={setError}
+      ></Persons>
     </>
   );
 };

@@ -8,7 +8,7 @@ import React, {
 
 import { IPerson } from "./index";
 import PersonService from "@services/person.service";
-import { AxiosResponse } from "axios/index";
+import { AxiosResponse } from "axios";
 
 const personExists = (persons: IPerson[], name: string) =>
   persons.filter((person: IPerson) => person.name.trim() === name.trim());
@@ -69,7 +69,7 @@ const PersonForm = ({
           setNotification(null);
         }, 5000);
       })
-      .catch((error) => {
+      .catch(() => {
         setError("Something went wrong!!!");
         setTimeout(() => {
           setError(null);
