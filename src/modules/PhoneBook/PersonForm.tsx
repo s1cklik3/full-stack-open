@@ -1,3 +1,4 @@
+import { AxiosResponse, HttpStatusCode } from "axios";
 import React, {
   Dispatch,
   FormEvent,
@@ -8,10 +9,12 @@ import React, {
 
 import { IPerson } from "./index";
 import PersonService from "@services/person.service";
-import { AxiosResponse } from "axios";
 
 const personExists = (persons: IPerson[], name: string) =>
-  persons.filter((person: IPerson) => person.name.trim() === name.trim());
+  persons.filter(
+    (person: IPerson) =>
+      person.name.toLowerCase().trim() === name.toLowerCase().trim(),
+  );
 
 const confirmed = (name: string) =>
   window.confirm(
@@ -53,8 +56,13 @@ const PersonForm = ({
             setNotification(null);
           }, 5000);
         })
-        .catch((error) => {
-          setError(error);
+        .catch(({ request }) => {
+          if (request.status === HttpStatusCode.NotFound) {
+            setError(`${name} has already been removed from the server`);
+            setTimeout(() => {
+              setError(null);
+            }, 5000);
+          }
         });
 
       return;

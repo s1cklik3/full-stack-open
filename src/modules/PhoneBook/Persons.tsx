@@ -1,4 +1,5 @@
 import { Dispatch, ReactElement, SetStateAction } from "react";
+import { HttpStatusCode } from "axios";
 
 import { IPerson } from "./index";
 import PersonService from "@services/person.service";
@@ -22,8 +23,13 @@ const Person = ({
             ),
           ]);
         })
-        .catch((error) => {
-          setError(error);
+        .catch(({ request }) => {
+          if (request.status === HttpStatusCode.NotFound) {
+            setError(`${person.name} has already been removed from the server`);
+            setTimeout(() => {
+              setError(null);
+            }, 5000);
+          }
         });
     }
   };
